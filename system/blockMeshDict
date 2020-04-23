@@ -1,0 +1,505 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1912                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+scale 1;
+convertToMeters 1;
+
+N 2;
+d_grad 5;
+
+d 0.1; // diameter of tubes
+r #calc "$d/2"; // radius of tubes
+L_h #calc "2.5*$d"; // length between centroid of tubes in horizontal direction
+L_v #calc "2*$d"; // length between centroid of tubes in vertical direction
+s #calc "$r*sin(degToRad(45))";
+s_long #calc "$r*cos(degToRad(22.5))";
+s_short #calc "$r*sin(degToRad(22.5))";
+
+// coordiantes of tube centers (center of first tube from left is coord-center)
+T1_x 0;
+T1_y 0;
+
+T2_x #calc "$L_h/2";
+T2_y #calc "$L_v/2";
+
+T3_x #calc "$L_h/2";
+T3_y #calc "-$L_v/2";
+
+T4_x #calc "$L_h*1";
+T4_y 0;
+
+T5_x #calc "3*$L_h/2";
+T5_y #calc "$L_v/2";
+
+T6_x #calc "3*$L_h/2";
+T6_y #calc "-$L_v/2";
+
+
+vertices
+(
+  (#calc "-2*$d" #calc "-1*$d"           0) //0
+  (#calc "$T1_x-$s" #calc "$T1_y-$s"     0) //1
+  (#calc "$T1_x-$s" #calc "$T1_y+$s"     0) //2
+  (#calc "-2*$d" $d                      0)  //3
+  (#calc "$T3_x-$r" #calc "-1*$d"        0) //4
+  (#calc "$T3_x-$s" #calc "$T3_y+$s"     0) //5
+  (#calc "$T1_x+$s" #calc "$T1_y-$s"     0) //6
+  (#calc "$T1_x+$s" #calc "$T1_y+$s"     0) //7
+  (#calc "$T2_x-$s" #calc "$T2_y-$s"     0) //8
+  (#calc "$T2_x-$r" $d                   0) //9
+  ($T3_x #calc "$T3_y+$r"                0)  //10
+  ($T3_x 0                               0)  //11
+  ($r 0                                  0) //12
+  ($T2_x #calc "$T2_y-$r"                0) //13
+  (#calc "$T3_x+$s" #calc "$T3_y+$s"     0) //14
+  (#calc "$T4_x-$s" #calc "$T4_y-$s"     0) //15
+  (#calc "$T4_x-$r" 0                    0) //16
+  (#calc "$T3_x+$r" #calc "-1*$d"        0) //17
+  ($T4_x #calc "-1*$d"                   0) //18
+  ($T4_x #calc "-1*$r"                   0) //19
+  (#calc "$T4_x-$s" #calc "$T4_y+$s"     0) //20
+  ($T4_x $d                              0) //21
+  (#calc "$T2_x+$r" $d                   0) //22
+  (#calc "$T2_x+$s" #calc "$T2_y-$s"     0) //23
+  (0 #calc "$T1_y-$r"                    0) // 24
+  ($T4_x $r                              0) //25
+  (#calc "$T4_x+$s" $s                   0) //26
+  (#calc "$T5_x-$s" #calc "$T5_y-$s"     0) //27
+  (#calc "$T5_x-$r" $d                   0) //28
+  (#calc "$T6_x-$r" #calc "-1*$d"        0) //29
+  (#calc "$T6_x-$s" #calc "$T6_y+$s"     0) //30
+  (#calc "$T4_x+$s" #calc "$T4_y-$s"     0) //31
+  ($T6_x #calc "$T6_y+$r"                0) //32
+  ($T6_x 0                               0) //33
+  (#calc "$T6_x+$r" $T6_y                0) //34
+  (#calc "$T6_x+2*$d" $T6_y              0) //35
+  (#calc "$T6_x+2*$d" 0                  0) //36
+  (#calc "$T6_x+2*$d" $d                 0) //37
+  (#calc "$T5_x+$r" $d                   0) //38
+  ($T5_x #calc "$T5_y-$r"                0) //39
+  (0 $T3_y                               0) //40
+  (0 #calc "$T1_x+$r"                    0) //41
+  (#calc "$T1_x+1.5*$r" #calc "$T1_y-$r" 0) //42
+  (0 $T2_y                               0) //43
+  (#calc "$T1_x+1.5*$r" #calc "$T1_y+$r" 0) //44
+  (#calc "$T3_x+1.5*$r" #calc "$T1_y-$r" 0) //45
+  (#calc "$T3_x+1.5*$r" #calc "$T1_y+$r" 0) //46
+  (#calc "$T4_x+1.5*$r" #calc "$T1_y-$r" 0) //47
+  (#calc "$T4_x+1.5*$r" #calc "$T1_y+$r" 0) //48
+  (#calc "$T5_x+1.5*$d" $T5_y            0) //49
+  (#calc "$T5_x+1.5*$d" $T6_y            0) //50
+  (#calc "$T4_x+$r" 0                    0) //51
+
+    // Now same coordinates but for other side in z direction
+    (#calc "-2*$d" #calc "-1*$d"           0.1) //0
+    (#calc "$T1_x-$s" #calc "$T1_y-$s"     0.1) //1
+    (#calc "$T1_x-$s" #calc "$T1_y+$s"     0.1) //2
+    (#calc "-2*$d" $d                      0.1)  //3
+    (#calc "$T3_x-$r" #calc "-1*$d"        0.1) //4
+    (#calc "$T3_x-$s" #calc "$T3_y+$s"     0.1) //5
+    (#calc "$T1_x+$s" #calc "$T1_y-$s"     0.1) //6
+    (#calc "$T1_x+$s" #calc "$T1_y+$s"     0.1) //7
+    (#calc "$T2_x-$s" #calc "$T2_y-$s"     0.1) //8
+    (#calc "$T2_x-$r" $d                   0.1) //9
+    ($T3_x #calc "$T3_y+$r"                0.1)  //10
+    ($T3_x 0                               0.1)  //11
+    ($r 0                                  0.1) //12
+    ($T2_x #calc "$T2_y-$r"                0.1) //13
+    (#calc "$T3_x+$s" #calc "$T3_y+$s"     0.1) //14
+    (#calc "$T4_x-$s" #calc "$T4_y-$s"     0.1) //15
+    (#calc "$T4_x-$r" 0                    0.1) //16
+    (#calc "$T3_x+$r" #calc "-1*$d"        0.1) //17
+    ($T4_x #calc "-1*$d"                   0.1) //18
+    ($T4_x #calc "-1*$r"                   0.1) //19
+    (#calc "$T4_x-$s" #calc "$T4_y+$s"     0.1) //20
+    ($T4_x $d                              0.1) //21
+    (#calc "$T2_x+$r" $d                   0.1) //22
+    (#calc "$T2_x+$s" #calc "$T2_y-$s"     0.1) //23
+    (0 #calc "$T1_y-$r"                    0.1) // 24
+    ($T4_x $r                              0.1) //25
+    (#calc "$T4_x+$s" $s                   0.1) //26
+    (#calc "$T5_x-$s" #calc "$T5_y-$s"     0.1) //27
+    (#calc "$T5_x-$r" $d                   0.1) //28
+    (#calc "$T6_x-$r" #calc "-1*$d"        0.1) //29
+    (#calc "$T6_x-$s" #calc "$T6_y+$s"     0.1) //30
+    (#calc "$T4_x+$s" #calc "$T4_y-$s"     0.1) //31
+    ($T6_x #calc "$T6_y+$r"                0.1) //32
+    ($T6_x 0                               0.1) //33
+    (#calc "$T6_x+$r" $T6_y                0.1) //34
+    (#calc "$T6_x+2*$d" $T6_y              0.1) //35
+    (#calc "$T6_x+2*$d" 0                  0.1) //36
+    (#calc "$T6_x+2*$d" $d                 0.1) //37
+    (#calc "$T5_x+$r" $d                   0.1) //38
+    ($T5_x #calc "$T5_y-$r"                0.1) //39
+    (0 $T3_y                               0.1) //40
+    (0 #calc "$T1_x+$r"                    0.1) //41
+    (#calc "$T1_x+1.5*$r" #calc "$T1_y-$r" 0.1) //42
+    (0 $T2_y                               0.1) //43
+    (#calc "$T1_x+1.5*$r" #calc "$T1_y+$r" 0.1) //44
+    (#calc "$T3_x+1.5*$r" #calc "$T1_y-$r" 0.1) //45
+    (#calc "$T3_x+1.5*$r" #calc "$T1_y+$r" 0.1) //46
+    (#calc "$T4_x+1.5*$r" #calc "$T1_y-$r" 0.1) //47
+    (#calc "$T4_x+1.5*$r" #calc "$T1_y+$r" 0.1) //48
+    (#calc "$T5_x+1.5*$d" $T5_y            0.1) //49
+    (#calc "$T5_x+1.5*$d" $T6_y            0.1) //50
+    (#calc "$T4_x+$r" 0                    0.1) //51
+
+
+);
+
+blocks
+(
+
+  hex (0    1  2  3  52 53 54 55) (#calc "5*$N" #calc "15*$N" 1) simpleGrading (1 1 1)//block 1
+  hex (0    40 24 1  52 92 76 53) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)//block 2
+  hex (3    2  41 43 55 54 93 95) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)//3
+  hex (40   42 6 24  92 94 58 76) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)//4
+  hex (40   4  5 42  92 56 57 94) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)//5
+  hex (41   7 44 43  93 59 96 95) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)//6
+  hex (43   44 8  9  95 96 60 61) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)//7
+  hex (12   11 44 7  64 63 96 59) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)//8
+  hex (6    42 11 12 58 94 63 64) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 9
+  hex (42   5  10 11 94 57 62 63) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 10
+  hex (44   11 13 8  96 63 65 60) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 11
+  hex (10   14 45 11 62 66 97 63) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 12
+  hex (11   45 15 16 63 97 67 68) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 13
+  hex (11   46 23 13 63 98 75 65) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 14
+  hex (11   16 20 46 63 68 72 98) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 15
+  hex (14   17 18 45 66 69 70 97) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 16
+  hex (45   18 19 15 97 70 71 67) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 17
+  hex (23   46 21 22 75 98 73 74) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 18
+  hex (46   20 25 21 98 72 77 73) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 19
+  hex (18   47 31 19 70 99 83 71) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 20
+  hex (18   29 30 47 70 81 82 99) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 21
+  hex (25  26 48 21 77 78 100 73) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 22
+  hex (48  27 28 21 100 79 80 73) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 23
+  hex (31  47 33 51 83 99 85 103) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 24
+  hex (47   30 32 33 99 82 84 85) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 25
+  hex (51 33 48 26  103 85 100 78) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 26
+  hex (48  33 39 27 100 85 91 79) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 27
+  hex (32  34 50 33 84 86 102 85) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 28
+  hex (33  50 35 36 85 102 87 88) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 29
+  hex (33  49 38 39 85 101 90 91) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 30
+  hex (33  36 37 49 85 88 89 101) (#calc "5*$N" #calc "5*$N" 1) simpleGrading (1 1 1)// 31
+);
+
+edges
+(
+
+  // T1 arcs
+  arc 1 2 (#calc "$T1_x-$r" 0                  0) // T1 left arc
+  arc 2 41 (#calc "-$s_short" $s_long          0) // Arc 2 41
+  arc 41 7 ($s_short $s_long                   0) // Arc 41 7
+  arc 7 12 ($s_long $s_short                   0) // arc 7 12
+  arc 12 6 ($s_long #calc "-$s_short"          0) // arc 12 6
+  arc 6 24 ($s_short #calc "-$s_long"          0) // arc 6 24
+  arc 24 1 (#calc "-$s_short" #calc "-$s_long" 0) // arc 24 1
+  // Other side (z)
+  arc 53 54 (#calc "$T1_x-$r" 0         0.1) // T1 left arc
+  arc 54 93 (#calc "-$s_short" $s_long 0.1) // Arc 2 41
+  arc 93 59 ($s_short $s_long          0.1) // Arc 41 7
+  arc 59 64 ($s_long $s_short          0.1) // arc 7 12
+  arc 64 58 ($s_long #calc "-$s_short"          0.1) // arc 12 6
+  arc 58 76 ($s_short #calc "-$s_long"          0.1) // arc 6 24
+  arc 76 53 (#calc "-$s_short" #calc "-$s_long" 0.1) // arc 24 1
+//
+//
+  // T2 arcs
+  arc 9 8   (#calc "$T2_x-$s_long"  #calc "$T2_y-$s_short"  0) // Arc 4 5
+  arc 8 13  (#calc "$T2_x-$s_short" #calc "$T2_y-$s_long"   0) // Arc 4 5
+  arc 13 23 (#calc "$T2_x+$s_short" #calc "$T2_y-$s_long"   0) // Arc 4 5
+  arc 23 22 (#calc "$T2_x+$s_long"  #calc "$T2_y-$s_short"  0) // Arc 4 5
+  // Other side (z)
+  arc 61 60 (#calc "$T2_x-$s_long"  #calc "$T2_y-$s_short"  0.1) // Arc 4 5
+  arc 60 65 (#calc "$T2_x-$s_short" #calc "$T2_y-$s_long"   0.1) // Arc 4 5
+  arc 65 75 (#calc "$T2_x+$s_short" #calc "$T2_y-$s_long"   0.1) // Arc 4 5
+  arc 75 74 (#calc "$T2_x+$s_long"  #calc "$T2_y-$s_short"  0.1) // Arc 4 5
+//
+//
+  // T3 arcs
+  arc 4 5   (#calc "$T3_x-$s_long"  #calc "$T3_y+$s_short"  0) // Arc 4 5
+  arc 5 10  (#calc "$T3_x-$s_short" #calc "$T3_y+$s_long"   0) // Arc 4 5
+  arc 10 14 (#calc "$T3_x+$s_short" #calc "$T3_y+$s_long"   0) // Arc 4 5
+  arc 14 17 (#calc "$T3_x+$s_long"  #calc "$T3_y+$s_short"  0) // Arc 4 5
+  // Other side (z)
+  arc 56 57 (#calc "$T3_x-$s_long"  #calc "$T3_y+$s_short"  0.1) // Arc 4 5
+  arc 57 62 (#calc "$T3_x-$s_short" #calc "$T3_y+$s_long"   0.1) // Arc 4 5
+  arc 62 66 (#calc "$T3_x+$s_short" #calc "$T3_y+$s_long"   0.1) // Arc 4 5
+  arc 66 69 (#calc "$T3_x+$s_long"  #calc "$T3_y+$s_short"  0.1) // Arc 4 5
+//
+//
+  // T4 arcs
+  arc 15 16 (#calc "$T4_x-$s_long" #calc "-$s_short"  0) // T1 left arc
+  arc 16 20 (#calc "$T4_x-$s_long" #calc "$s_short"  0) // Arc 2 41
+  arc 20 25 (#calc "$T4_x-$s_short" #calc "$s_long"  0) // Arc 41 7
+  arc 25 26 (#calc "$T4_x+$s_short" #calc "$s_long"  0) // arc 7 12
+  arc 26 51 (#calc "$T4_x+$s_long" #calc "$s_short"  0) // arc 12 6
+  arc 51 31 (#calc "$T4_x+$s_long" #calc "-$s_short"  0) // arc 6 24
+  arc 31 19 (#calc "$T4_x+$s_short" #calc "-$s_long"  0) // arc 24 1
+  arc 19 15 (#calc "$T4_x-$s_short" #calc "-$s_long"  0) // arc 24 1
+  // Other side (z)
+  arc 67 68 (#calc "$T4_x-$s_long" #calc "-$s_short"  0.1) // T1 left arc
+  arc 68 72 (#calc "$T4_x-$s_long" #calc "$s_short"   0.1) // Arc 2 41
+  arc 72 77 (#calc "$T4_x-$s_short" #calc "$s_long"   0.1) // Arc 41 7
+  arc 77 78 (#calc "$T4_x+$s_short" #calc "$s_long"   0.1) // arc 7 12
+  arc 78 103 (#calc "$T4_x+$s_long" #calc "$s_short"   0.1) // arc 12 6
+  arc 103 83 (#calc "$T4_x+$s_long" #calc "-$s_short"  0.1) // arc 6 24
+  arc 83 71 (#calc "$T4_x+$s_short" #calc "-$s_long"  0.1) // arc 24 1
+  arc 71 67 (#calc "$T4_x-$s_short" #calc "-$s_long"  0.1) // arc 24 1
+//
+//
+  // T5 arcs
+  arc 28 27 (#calc "$T5_x-$s_long"  #calc "$T5_y-$s_short"  0) // Arc 4 5
+  arc 27 39 (#calc "$T5_x-$s_short" #calc "$T5_y-$s_long"   0) // Arc 4 5
+  arc 39 38 (#calc "$T5_x+$s" #calc "$T5_y-$s"   0) // Arc 4 5
+  // Other side (z)
+  arc 80 79 (#calc "$T5_x-$s_long"  #calc "$T5_y-$s_short"  0.1) // Arc 4 5
+  arc 79 91 (#calc "$T5_x-$s_short" #calc "$T5_y-$s_long"   0.1) // Arc 4 5
+  arc 91 90 (#calc "$T5_x+$s_short" #calc "$T5_y-$s_long"   0.1) // Arc 4 5
+//
+//
+  // T6 arcs
+  arc 29 30 (#calc "$T6_x-$s_long"  #calc "$T6_y+$s_short"  0) // Arc 4 5
+  arc 30 32 (#calc "$T6_x-$s_short" #calc "$T6_y+$s_long"   0) // Arc 4 5
+  arc 32 34 (#calc "$T6_x+$s"       #calc "$T6_y+$s"   0) // Arc 4 5
+  // Other side (z)
+  arc 81 82 (#calc "$T6_x-$s_long"  #calc "$T6_y+$s_short"  0.1) // Arc 4 5
+  arc 82 84 (#calc "$T6_x-$s_short" #calc "$T6_y+$s_long"   0.1) // Arc 4 5
+  arc 84 86 (#calc "$T6_x+$s_short" #calc "$T6_y+$s_long"   0.1) // Arc 4 5
+
+
+);
+
+
+
+boundary
+(
+
+  inlet
+  {
+      type patch;
+      faces
+      (
+          (0 3 52 55)
+      );
+  }
+
+  outlet
+  {
+      type patch;
+      faces
+      (
+          (36 35 87 88)
+          (37 36 88 89)
+      );
+  }
+
+  T1
+  {
+      type wall;
+      faces
+      (
+          (1 2 54 53)
+          (2 41 93 54)
+          (41 7 59 93)
+          (7 12 64 59)
+          (12 6 64 58)
+          (6 24 58 76)
+          (24 1 76 53)
+      );
+  }
+
+  T2
+  {
+      type wall;
+      faces
+      (
+          (8 9 61 60)
+          (13 8 60 65)
+          (23 13 65 75)
+          (22 23 75 74)
+      );
+  }
+
+  T3
+  {
+      type wall;
+      faces
+      (
+          (4  5  57 56)
+          (5  10 62 57)
+          (10 14 66 62)
+          (14 17 69 66)
+      );
+  }
+
+  T4
+  {
+      type wall;
+      faces
+      (
+        (16	20	72	68)
+        (20	25	77	72)
+        (25	26	78	77)
+        (26	51	103	78)
+        (51	31	83	103)
+        (31	19	71	83)
+        (19	15	67	71)
+        (15	16	68	67)
+
+      );
+  }
+
+  T5
+  {
+      type wall;
+      faces
+      (
+        (38	39	91	90)
+        (39	27	79	91)
+        (27	28	80	79)
+
+
+      );
+  }
+
+  T6
+  {
+      type wall;
+      faces
+      (
+         (29	30	82	81)
+         (30	32	84	82)
+         (32	34	86	84)
+      );
+  }
+
+  top
+  {
+      type cyclic;
+      neighbourPatch bottom;
+      faces
+      (
+          (3 43 55 95)
+          (43 9 61 95)
+          (22 21 73 74)
+          (21 28 73 80)
+          (38 49 90 101)
+          (49 37 89 101)
+      );
+  }
+
+  bottom
+  {
+      type cyclic;
+      neighbourPatch top;
+      faces
+      (
+          (0 40 52 92)
+          (4 40 92 56)
+          (18 17 69 70)
+          (29 18 70 81)
+          (50 34 86 102)
+          (35 50 102 87)
+      );
+  }
+
+  left
+  {
+      type empty;
+      faces
+      (
+      (0    1  2  3 )
+      (0    40 24 1 )
+      (3    2  41 43)
+      (40   42 6 24 )
+      (40   4  5 42 )
+      (41   7 44 43 )
+      (43   44 8  9 )
+      (12   11 44 7 )
+      (6    42 11 12)
+      (42   5  10 11)
+      (44   11 13 8 )
+      (10   14 45 11)
+      (11   45 15 16)
+      (11   46 23 13)
+      (11   16 20 46)
+      (14   17 18 45)
+      (45   18 19 15)
+      (23   46 21 22)
+      (46   20 25 21)
+      (18   47 31 19)
+      (18   29 30 47)
+      (25  26 48 21 )
+      (48  27 28 21 )
+      (31  47 33 51 )
+      (47  30 32 33)
+      (51 33 48 26  )
+      (48  33 39 27 )
+      (32  34 50 33 )
+      (33  50 35 36 )
+      (33  49 38 39 )
+      (33  36 37 49 )
+      );
+  }
+
+  right
+  {
+      type empty;
+      faces
+      (
+        (52	55	54	53)
+        (52	53	76	92)
+        (55	95	93	54)
+        (92	76	58	94)
+        (92	94	57	56)
+        (93	95	96	59)
+        (95	61	60	96)
+        (64	59	96	63)
+        (58	64	63	94)
+        (94	63	62	57)
+        (96	60	65	63)
+        (62	63	97	66)
+        (63	68	67	97)
+        (63	65	75	98)
+        (63	98	72	68)
+        (66	97	70	69)
+        (97	67	71	70)
+        (75	74	73	98)
+        (98	73	77	72)
+        (70	71	83	99)
+        (70	99	82	81)
+        (77	73	100	78)
+        (100	73	80	79)
+        (83	103	85	99)
+        (99	85	84	82)
+        (103	78	100	85)
+        (100	79	91	85)
+        (84	85	102	86)
+        (85	88	87	102)
+        (85	91	90	101)
+        (85	101	89	88)
+
+      );
+  }
+
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //

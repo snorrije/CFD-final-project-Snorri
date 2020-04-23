@@ -1,0 +1,89 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1912                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+
+    inlet
+        {
+            type            fixedValue;
+            value           uniform (0.2 0 0);
+        }
+
+    outlet
+        {
+            type            fluxCorrectedVelocity;
+        }
+
+    top
+        {
+            type            cyclic;
+        }
+
+    bottom
+        {
+            type            cyclic;
+        }
+
+    T1
+        {
+            type            fixedValue;
+            value           uniform (0 0 0);
+        }
+    T2
+        {
+            type            fixedValue;
+            value           uniform (0 0 0);
+        }
+    T3
+        {
+            type            fixedValue;
+            value           uniform (0 0 0);
+        }
+    T4
+        {
+            type            fixedValue;
+            value           uniform (0 0 0);
+        }
+    T5
+        {
+            type            fixedValue;
+            value           uniform (0 0 0);
+        }
+    T6
+        {
+            type            fixedValue;
+            value           uniform (0 0 0);
+        }
+
+    left
+        {
+            type            empty;
+        }
+
+    right
+        {
+            type            empty;
+        }
+
+    #includeEtc "caseDicts/setConstraintTypes"
+}
+
+// ************************************************************************* //
